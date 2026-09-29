@@ -128,7 +128,7 @@
                             <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-88 md:h-88 lg:w-96 lg:h-96 rounded-3xl overflow-hidden p-2 bg-brand-light shadow-lg border border-white/60">
                                 <div class="absolute inset-0 bg-brand-dark/10 mix-blend-soft-light z-10 pointer-events-none"></div>
                                 
-                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800" 
+                                <img src="BJZG3261.JPG" 
                                      alt="Profile Picture" 
                                      class="w-full h-full object-cover rounded-2xl filter contrast-[0.92] brightness-[0.97] saturate-[0.95] transition duration-300">
                             </div>
