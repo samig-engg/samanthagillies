@@ -1,2 +1,401 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0F402C',   /* Deep Forest Green */
+                            pink: '#DC8D9C',   /* Dusty Rose Pink */
+                            light: '#D9D3D7',  /* Soft Neutral Muted Gray/Pink */
+                            bg: '#F5F3F4',     /* Light background tint */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #D9D3D7;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+        }
+
+        /* Glassmorphism card styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-nav {
+            background: rgba(15, 64, 44, 0.96);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Animation for tab content switching */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Active navigation tab highlight */
+        .nav-btn.active {
+            background-color: #DC8D9C;
+            color: #0F402C;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(220, 141, 156, 0.35);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-pink selection:text-brand-dark pt-20">
+
+    <header class="fixed top-0 left-0 right-0 z-50 w-full glass-nav shadow-xl border-b border-emerald-900/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between">
+            <!-- Brand / Logo Area -->
+            <a href="#" onclick="switchTab('about'); return false;" class="flex items-center space-x-3 text-white group">
+                <div class="w-10 h-10 rounded-xl bg-brand-pink text-brand-dark flex items-center justify-center font-serif font-bold text-xl group-hover:scale-105 transition-transform duration-200 shadow-md">
+                    SG
+                </div>
+                <span class="font-serif font-bold text-lg tracking-wide text-white group-hover:text-brand-pink transition-colors">
+                    Samantha Gillie
+                </span>
+            </a>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex items-center space-x-1 sm:space-x-2 mt-2 sm:mt-0 w-full sm:w-auto justify-center overflow-x-auto py-1">
+                <button id="nav-about" onclick="switchTab('about')" class="nav-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 text-slate-200 hover:text-white hover:bg-white/10 flex items-center space-x-2">
+                    <i class="fa-solid fa-user text-xs"></i>
+                    <span>About Me</span>
+                </button>
+                <button id="nav-education" onclick="switchTab('education')" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 text-slate-200 hover:text-white hover:bg-white/10 flex items-center space-x-2">
+                    <i class="fa-solid fa-graduation-cap text-xs"></i>
+                    <span>Education</span>
+                </button>
+                <button id="nav-experience" onclick="switchTab('experience')" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 text-slate-200 hover:text-white hover:bg-white/10 flex items-center space-x-2">
+                    <i class="fa-solid fa-briefcase text-xs"></i>
+                    <span>Work Experience</span>
+                </button>
+                <button id="nav-skills" onclick="switchTab('skills')" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 text-slate-200 hover:text-white hover:bg-white/10 flex items-center space-x-2">
+                    <i class="fa-solid fa-code text-xs"></i>
+                    <span>Certifications</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-5xl w-full mx-auto px-4 py-8 flex-grow">
+
+        <section id="tab-about" class="tab-content animate-fade-in">
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-brand-light/80 shadow-lg">
+                <!-- Flex/Grid container putting portrait photo on left and title + intro inline on right -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+                    
+                    <!-- Left: Profile Image with soft ambient glow -->
+                    <div class="md:col-span-5 flex justify-center">
+                        <div class="relative group">
+                            <!-- Soft ambient glow blur behind image -->
+                            <div class="absolute -inset-2 bg-gradient-to-r from-brand-pink via-brand-light to-brand-dark rounded-3xl blur-xl opacity-60 group-hover:opacity-80 transition duration-500">
+                            </div>
+                            
+                            <!-- Image Container -->
+                            <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-88 md:h-88 lg:w-96 lg:h-96 rounded-3xl overflow-hidden p-2 bg-brand-light shadow-lg border border-white/60">
+                                <div class="absolute inset-0 bg-brand-dark/10 mix-blend-soft-light z-10 pointer-events-none"></div>
+                                
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800" 
+                                     alt="Profile Picture" 
+                                     class="w-full h-full object-cover rounded-2xl filter contrast-[0.92] brightness-[0.97] saturate-[0.95] transition duration-300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Content Column with "About Me" heading inline in same horizontal row -->
+                    <div class="md:col-span-7 text-center md:text-left space-y-4">
+                        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-brand-pink/20 text-brand-dark text-xs font-semibold tracking-wide uppercase border border-brand-pink/40">
+                            <i class="fa-solid fa-sparkles text-xs"></i>
+                            <span>Welcome to my portfolio</span>
+                        </div>
+                        
+                        <h1 class="font-serif text-4xl sm:text-5xl font-bold text-brand-dark tracking-tight leading-tight">
+                            About Me
+                        </h1>
+
+                        <p class="text-slate-700 text-base sm:text-lg leading-relaxed">
+                            Hello! My name is Sam and I am a second-year mechanical engineer student at the University of Alberta. I am originally from Regina Saskatchewan which is where I worked this past summer as a mechanical designer trainee at PTI Transformers. When I am not studying for my next exam, I enjoy playing dodgeball or relaxing with a good fantasy novel. I have recently joined Alberta Heart, a project club that is developing a total artificial heart. In high school I was on the volleyball team and was the media coordinator for the football team. Outside of high school I did competitive dance for 15 years and played, as well as coached, roller derby. I became interested in mechanical engineering after taking an automotive shop class offered by my school when I was 15. Since then, I have taken three shop classes where I have learnt the basics of car maintenance and repairs. I hope to use this knowledge of systems to improve my perspective as an engineer.
+                        </p>
+
+                        <!-- Action buttons -->
+                        <div class="pt-4 flex flex-wrap justify-center md:justify-start gap-3">
+                            <button onclick="switchTab('experience')" class="px-6 py-3 rounded-xl bg-brand-dark text-white font-semibold text-sm hover:bg-emerald-950 transition shadow-md flex items-center space-x-2">
+                                <span>View Experience</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                            <button onclick="switchTab('skills')" class="px-6 py-3 rounded-xl bg-brand-pink/25 text-brand-dark border border-brand-pink/50 font-semibold text-sm hover:bg-brand-pink/40 transition flex items-center space-x-2">
+                                <span>Explore Skills</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Core Values / Highlights Section -->
+                <div class="mt-12 pt-8 border-t border-slate-300/80">
+                    <h2 class="font-serif text-2xl font-bold text-brand-dark mb-6 text-center md:text-left">
+                        Core Principles
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="p-5 rounded-2xl bg-white/70 border border-brand-light/80 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-brand-dark text-white flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-lightbulb"></i>
+                            </div>
+                            <h3 class="font-bold text-brand-dark text-base mb-1">Innovative Mindset</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Seeking creative, scalable, and modern solutions to complex challenges.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-white/70 border border-brand-light/80 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-brand-pink text-brand-dark flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <h3 class="font-bold text-brand-dark text-base mb-1">Attention to Detail</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Focusing on clean code, responsive layouts, and thoughtful typography.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-white/70 border border-brand-light/80 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-brand-dark text-white flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-user-group"></i>
+                            </div>
+                            <h3 class="font-bold text-brand-dark text-base mb-1">Collaborative Growth</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">Fostering open communication and teamwork to achieve lasting impact.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-education" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="border-b border-slate-300/80 pb-4">
+                </div>
+                <h1 class="font-serif text-4xl sm:text-5xl font-bold text-brand-dark">Education</h1>
+                <p class="text-slate-600 text-base sm:text-lg mt-1">My academic foundation, and degree.</p>
+            </div>
+
+            <!-- Degree Main Card -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-brand-light/80 shadow-lg space-y-8">
+                <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 border-b border-slate-200/80 pb-8">
+                    <div class="flex items-start space-x-5">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-dark text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+                            <i class="fa-solid fa-university"></i>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-dark">Bachelor of Science in Mechanical Engineering</h2>
+                                <span class="px-3 py-0.5 rounded-full bg-brand-pink/25 text-brand-dark text-xs font-bold border border-brand-pink/40">
+                                </span>
+                            </div>
+                            <p class="text-brand-pink font-semibold text-lg mt-1">University of Alberta</p>
+                            <p class="text-slate-500 text-sm mt-1 flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-slate-400"></i>
+                                <span>Edmonton, Alberta / Canada</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="md:text-right shrink-0">
+                        <span class="inline-block px-4 py-2 rounded-xl bg-brand-light/70 text-brand-dark font-semibold text-sm border border-brand-light">
+                            2025 – 2029
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-brand-light/80 shadow-lg space-y-8">
+                <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 border-b border-slate-200/80 pb-8">
+                    <div class="flex items-start space-x-5">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-dark text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+                            <i class="fa-solid fa-university"></i>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-dark">Highschool Diploma</h2>
+                                <span class="px-3 py-0.5 rounded-full bg-brand-pink/25 text-brand-dark text-xs font-bold border border-brand-pink/40">
+                                </span>
+                            </div>
+                            <p class="text-brand-pink font-semibold text-lg mt-1">Thom Collegiate</p>
+                            <p class="text-slate-500 text-sm mt-1 flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-slate-400"></i>
+                                <span>Regina, Saskatchewan / Canada</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="md:text-right shrink-0">
+                        <span class="inline-block px-4 py-2 rounded-xl bg-brand-light/70 text-brand-dark font-semibold text-sm border border-brand-light">
+                            2021 – 2025
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-experience" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="border-b border-slate-300/80 pb-4">
+                </div>
+                <h1 class="font-serif text-4xl sm:text-5xl font-bold text-brand-dark">Work Experience</h1>
+                <p class="text-slate-600 text-base sm:text-lg mt-1">A timeline of my professional roles.</p>
+            </div>
+
+            <!-- Timeline Stack -->
+            <div class="space-y-6">
+
+                <!-- Role 1 -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 border border-brand-light/80 shadow-md relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 border-b border-slate-200/80 pb-5">
+                        <div>
+                            <h2 class="font-serif text-2xl font-bold text-brand-dark mt-2">Mechanical Designer Trainee</h2>
+                            <p class="text-brand-pink font-bold text-base">PTI Transformers</p>
+                        </div>
+                        <div class="md:text-right">
+                            <span class="inline-block px-3.5 py-1.5 rounded-xl bg-brand-light/70 text-brand-dark font-semibold text-xs border border-brand-light">
+                                May 2026 – August 2026
+                            </span>
+                        </div>
+                    </div>
+                    <ul class="mt-5 space-y-2.5 text-slate-700 text-sm">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-circle-check text-brand-pink mt-1 text-xs"></i>
+                            <span>Created a checklist of Canadian standards to guide designers through drawing reviews.</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-circle-check text-brand-pink mt-1 text-xs"></i>
+                            <span>Reorganized drawing files to ensure all records reflect up-to-date revisions.</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-circle-check text-brand-pink mt-1 text-xs"></i>
+                            <span>Standardized SAP part naming conventions and attached corresponding reference drawings.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-skills" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="border-b border-slate-300/80 pb-4">
+                </div>
+                <h1 class="font-serif text-4xl sm:text-5xl font-bold text-brand-dark">Certifications</h1>
+                <p class="text-slate-600 text-base sm:text-lg mt-1">Technical skills, and knowledge.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Technical Skills -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 border border-brand-light/80 shadow-md space-y-5">
+                    <div class="flex items-center space-x-3 border-b border-slate-200/80 pb-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand-dark text-white flex items-center justify-center">
+                            <i class="fa-solid fa-vial"></i>
+                        </div>
+                        <h2 class="font-serif text-xl font-bold text-brand-dark">University of Alberta WHMIS Certification</h2>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-16 bg-brand-dark text-white border-t-4 border-brand-pink pt-10 pb-8 px-4">
+        <div class="max-w-4xl mx-auto space-y-6">
+            
+            <div class="text-center space-y-2">
+                <span class="text-xs font-semibold uppercase tracking-widest text-brand-pink">Get in Touch</span>
+                <h2 class="font-serif text-3xl font-bold">Contact Me</h2>
+                <p class="text-slate-300 text-sm max-w-md mx-auto">
+                    Feel free to reach out via phone or email for inquiries.
+                </p>
+            </div>
+
+            <!-- Clean 2-column contact cards grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto pt-2">
+                <!-- Phone Card -->
+                <a href="tel:+13065514485" class="p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition flex items-center space-x-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-brand-pink text-brand-dark flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-brand-pink font-semibold uppercase tracking-wider">Phone</div>
+                        <div class="font-medium text-sm text-white mt-0.5">(306) 551-4485</div>
+                    </div>
+                </a>
+
+                <!-- Email Card -->
+                <a href="mailto:slgillie@ualberta.ca" class="p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition flex items-center space-x-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-brand-pink text-brand-dark flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-brand-pink font-semibold uppercase tracking-wider">Email</div>
+                        <div class="font-medium text-sm text-white mt-0.5">slgillie@ualberta.ca</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="pt-6 border-t border-white/10 text-center text-xs text-slate-400">
+                &copy; <span id="year"></span> Portfolio Website. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set dynamic year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Switch between tabs smoothly
+        function switchTab(tabId) {
+            // Hide all tab content sections
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            // Remove active styling from all nav buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab content
+            const activeContent = document.getElementById('tab-' + tabId);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+
+            // Highlight selected nav button
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // Smooth scroll up to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
